@@ -20,7 +20,6 @@ module.exports = {
       errors: true,
     },
   },
-  // 扩展webpack 配置，使packages加入编译
   chainWebpack: (config) => {
     config.resolve.alias.set("@", resolve("packages"))
 

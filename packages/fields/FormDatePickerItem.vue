@@ -12,12 +12,14 @@
       <DatePicker
         v-model="data[config.key]"
         :readonly="readOnly"
-        format="yyyy-MM-dd"
+        :format="config.format || yyyy - MM - dd"
         :type="datePickerType"
         :placeholder="config.placeholder"
         clearable
+        style="width: 100%"
       />
     </FormItem>
+    <div>{{ config }}</div>
   </Col>
 </template>
 <script>

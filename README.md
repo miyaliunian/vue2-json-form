@@ -1,6 +1,6 @@
 # BeansFlight-JSON-FORM
 
-> **版本号:verison 0.23.12**
+> **版本号:verison 0.23.13**
 
 一份配置，轻松搞定配置 Vue 表单渲染
 
@@ -10,7 +10,19 @@
 >
 > **表单的联动关系与状态重置往往散落在各个函数方法中，随着需求的不断扩充与变更，使得表单之间的耦合复杂度上升，对于后续的开发者而言，很难清晰快速地了解表单中隐含的业务逻辑与联动关系，这使得表单变得非常不便于维护。**
 >
-> **beansflight-vue-json-form 具有数据收集、校验和提交功能的表单生成器，支持双向数据绑定和事件扩展，组件包含有复选框、单选框、输入框、下拉选择框等表单元素以及省市区三级联动,时间选择,日期选择,颜色选择,滑块,评分,框架,树型,文件/图片上传等功能组件**
+> **特性**
+>
+> - 数据收集、校验和提交功能的表单生成器，
+> - 支持双向数据绑定和事件扩展，
+> - 包含如下组件
+>   - 复选框、
+>   - 单选框
+>   - 输入框、
+>   - 下拉选择框等表单元素
+>   - 省市区三级联动,时间选择,
+>   - 日期选择
+>   - 文件/图片上传等功能组件
+>   - 富文本编辑器
 
 # 一· form 支持的类型文本类型
 
@@ -327,6 +339,7 @@ Vue.use(beansflightForm);
 | multiple   | false  | 是否为多选操作   | Boolean       | null    |                                                                     |
 | click      | true   | 按钮回调函数     | Function      | Null    | multiple 为 false 时，调用此函数响应点击事件                        |
 | multiClick | false  | 多选操作回调函数 | Function(res) | Array   | multiple 为 ture 时，调用此函数响应点击事件，返回字段为选中的所有行 |
+| hidden     | false  | 操作按钮是否可用 | Function(res) | Null    | 函数返回值类型只能为 Boolean                                        |
 
 ```javascript
       panelConfig: {
@@ -340,6 +353,9 @@ Vue.use(beansflightForm);
             privilege: 'merchant-info-list-add', // 按钮权限
             click: () => {},
             multiClick: (res) => console.log("批量操作", res)
+            hidden: (row) => {
+                  return true | false
+                },
           },
           {
             title: '逗逗飞新建', // 按钮标题

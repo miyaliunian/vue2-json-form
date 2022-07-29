@@ -1,13 +1,12 @@
 <template>
-  <div class="tinymce-editor">
-    <editor
-      ref="timyEditor"
-      v-model="myValue"
-      :init="init"
-      :disabled="disabled"
-    >
-    </editor>
-  </div>
+  <editor
+    ref="timyEditor"
+    v-model="myValue"
+    :init="init"
+    :disabled="disabled"
+    :key="tinymceFlag"
+  >
+  </editor>
 </template>
 
 <script>
@@ -55,6 +54,8 @@ import "tinymce/plugins/tabfocus"
 import "tinymce/plugins/textpattern"
 import "tinymce/plugins/template"
 
+import eventBus from "../../libs/EventBus"
+
 export default {
   name: "FormRichEditor",
   components: {
@@ -65,6 +66,9 @@ export default {
     value: {
       type: String,
       default: "",
+    },
+    visable: {
+      type: Boolean,
     },
     height: {
       type: Number,
@@ -89,6 +93,7 @@ export default {
   },
   data() {
     return {
+      tinymceFlag: 1,
       init: {
         placeholder: this.placeholder || "在这里输入文字",
         language_url: "/tinymce/langs/zh_CN.js",
@@ -128,15 +133,26 @@ export default {
   },
   mounted() {
     tinymce.init({})
+    eventBus.$on("reset", () => this.reset())
   },
-
+  beforeDestroy() {
+    tinymce.remove()
+  },
   methods: {
     clear() {
       this.myValue = ""
     },
     reset() {
-      tinymce.init({})
+      console.log("调用重置")
+      // debugger
+      // this.clear()
+      // tinymce.remove()
     },
+  },
+  activated() {
+    console.log("activated被执行", this.tinymceFlag)
+    this.tinymceFlag++
+    console.log("activated被执行2", this.tinymceFlag)
   },
   watch: {
     value(newValue) {

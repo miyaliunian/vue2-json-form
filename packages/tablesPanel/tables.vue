@@ -339,7 +339,6 @@ export default {
       if (this.searchable) this.handleSearch()
     },
     panelConfig(options) {
-      // console.log("被调用")
       this.handleHeaderBtnOPtions()
     },
   },
@@ -431,24 +430,17 @@ export default {
       return item
     },
 
-    // surportHandle(item) {
-    //   const options = item.options || [];
-    //   const insideBtns = [];
-    //   options.forEach((item) => {
-    //     if (handleBtns[item]) insideBtns.push(handleBtns[item]);
-    //   });
-    //   const btns = item.button ? [].concat(insideBtns, item.button) : insideBtns;
-    //   item.render = (h, params) => {
-    //     params.tableData = this.value;
-    //     return h('div', btns.map((item) => item(h, params, this)));
-    //   };
-    //   return item;
-    // },
-
     surportHandle(item) {
       const options = item.options || []
       item.render = (h, params) => {
-        options.map((btn) => (btn.action = () => btn.onClick(params.row)))
+        options.map(
+          (btn) => (
+            (btn.action = () => btn.onClick(params.row)),
+            (btn.disabled = btn.hidden
+              ? () => btn.hidden(params.row)
+              : () => {})
+          )
+        )
         return tableAction(h, options)
       }
       return item
@@ -469,7 +461,7 @@ export default {
       this.insideColumns = columns.map((item, index) => {
         const res = item
         // 可编辑状态
-        // if (res.editable) { res = this.suportEdit(res, index); }
+        // TODO
         // 正常处理
         // 处理枚举
         if (res.type && res.type === "enum") {
@@ -551,14 +543,17 @@ export default {
           ? this.columns[1].key
           : ""
     },
+
     handleClear(e) {
       if (e.target.value === "") this.insideTableData = this.value
     },
+
     handleSearch() {
       this.insideTableData = this.value.filter(
         (item) => item[this.searchKey].indexOf(this.searchValue) > -1
       )
     },
+
     handleTableData() {
       this.insideTableData = this.value.map((item, index) => {
         const res = item

@@ -33,7 +33,8 @@ import ModelPanel from "../fields/ModelItem.vue"
 import { componentsMap } from "../mappings/formEditMapping"
 import { titleCase, isFunc, isObj } from "../libs/lib"
 import DynamicCell from "./DynamicCell.vue"
-import Vue from "vue"
+import EventBus from "../libs/EventBus"
+import { syncOption } from "../libs/syncOption"
 export default {
   name: "NewFormPanel",
   inheritAttrs: false,
@@ -60,7 +61,6 @@ export default {
   },
   computed: {
     formData() {
-      console.log("wefwef")
       return this.data
     },
     // 配置初始化
@@ -86,41 +86,25 @@ export default {
             }
           }
         }
-        switch (column.type) {
-          case "select": // select 组件判断options
-            Vue.set(column, "selOptions", [])
-            column.selOptions = column.options
-              ? isFunc(column.options)
-                ? column.options(form)
-                : column.options
-              : {}
-            break
-          case "cascader": //cascader 组件判断options
-            Vue.set(column, "casOptions", [])
-            column.casOptions = column.options
-              ? isFunc(column.options)
-                ? column.options(form)
-                : column.options
-              : {}
-            break
-          default:
-            break
-        }
-
+        syncOption(column)
         return column
       })
       return { splitLine, row, lineTitle }
     },
     cancel() {
       this.$refs.form.resetFields()
-      this.$emit("cancel")
+      setTimeout(() => {
+        this.$emit("cancel")
+      }, 0)
     },
     save() {
       this.$refs.form.validate((valid) => {
         if (valid) {
           let emitForm = JSON.parse(JSON.stringify(this.data))
-          this.$refs["form"].resetFields()
-          this.$emit("sumbit", emitForm)
+          // this.$refs["form"].resetFields()
+          this.$emit("sumbit", emitForm, () => {
+            this.$refs["form"].resetFields()
+          })
         } else {
           Message.error("参数验证错误，请仔细填写表单数据!")
         }

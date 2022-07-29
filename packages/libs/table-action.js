@@ -34,6 +34,7 @@ const tableAction = (h, array) => {
             h(Button, {
               props: {
                 type: item.type ? item.type : "primary",
+                disabled: item.disabled(),
               },
               style: {
                 marginLeft: "5px",
@@ -55,6 +56,7 @@ const tableAction = (h, array) => {
         btn = h(Button, {
           props: {
             type: item.type ? item.type : "primary",
+            disabled: item.disabled(),
           },
           style: {
             marginLeft: "5px",

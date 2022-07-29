@@ -41,7 +41,8 @@ import ModelPanel from "../fields/ModelItem.vue"
 import { componentsMap } from "../mappings/formEditMapping"
 import { titleCase, isFunc, isObj } from "../libs/lib"
 import DynamicCell from "./DynamicCell.vue"
-import Vue from "vue"
+import EventBus from "../libs/EventBus"
+import { syncOption } from "../libs/syncOption"
 
 export default {
   name: "EditFormPanel",
@@ -56,14 +57,6 @@ export default {
     DynamicCell,
   },
   props: {
-    displayed: {
-      // 组件展现形式 model:弹窗 panel: 平面
-      type: String,
-      default: () => "model",
-    },
-    // resetForm: {
-    //   type: Boolean,
-    // },
     data: {
       type: Object,
       default: () => {},
@@ -87,10 +80,15 @@ export default {
     },
     // 配置初始化
     configForm() {
+      this.mappkeys()
       return this.config.map((item) => this.formateItem(item, this.data))
     },
   },
   methods: {
+    mappkeys() {
+      console.log("mapkeys", this.data)
+    },
+
     formateItem(item, form) {
       const { row, splitLine, lineTitle } = item
       row.map((column) => {
@@ -108,29 +106,7 @@ export default {
             }
           }
         }
-        //select组件判断options
-        switch (column.type) {
-          case "select":
-            Vue.set(column, "selOptions", [])
-            column.selOptions = column.options
-              ? isFunc(column.options)
-                ? column.options(form)
-                : column.options
-              : {}
-            break
-
-          //cascader组件判断options
-          case "cascader":
-            Vue.set(column, "casOptions", [])
-            column.casOptions = column.options
-              ? isFunc(column.options)
-                ? column.options(form)
-                : column.options
-              : {}
-            break
-          default:
-            break
-        }
+        syncOption(column)
         return column
       })
       return { splitLine, row, lineTitle }
@@ -141,14 +117,19 @@ export default {
         this.formData[key] = this.orignForm[key]
       })
       this.resetFlag = 0
-      this.$emit("cancel")
+      setTimeout(() => {
+        this.$emit("cancel")
+      }, 0)
     },
     save() {
       this.$refs.editModel.validate((valid) => {
         if (valid) {
           let emitForm = JSON.parse(JSON.stringify(this.formData))
           this.resetFlag = 0
-          this.$emit("sumbit", emitForm)
+          // this.$refs["editModel"].resetFields()
+          this.$emit("sumbit", emitForm, () => {
+            this.$refs["editModel"].resetFields()
+          })
         } else {
           Message.error("参数验证错误，请仔细填写表单数据!")
         }
@@ -158,7 +139,6 @@ export default {
   watch: {
     formData: {
       handler(newValue, oldValue) {
-        debugger
         console.log("edith -> handler:", newValue)
         if (newValue.id === null || newValue.id === "") {
           this.resetFlag === 0
@@ -168,6 +148,7 @@ export default {
         if (this.resetFlag === 1) {
           this.orignForm = JSON.parse(JSON.stringify(newValue))
         }
+        // this.config.map((item) => this.formateItem(item, newValue))
       },
       deep: true,
     },

@@ -67,8 +67,8 @@
 </template>
 <script>
 import { Row, Card, ButtonGroup, Button } from "view-design"
-import Vue from "vue"
-import { titleCase, isFunc, isNull } from "../libs/lib"
+import { titleCase, isNull } from "../libs/lib"
+import { syncOption } from "../libs/syncOption"
 import { componentsMap } from "../mappings"
 import DynamicItem from "./DynamicCell"
 const dayJS = require("dayjs")
@@ -131,36 +131,13 @@ export default {
         let def = componentsMap[titleCase(type)]
         column.tag = def.component
         column.props = Object.assign({}, def.props, column.props)
-        switch (column.type) {
-          case "select": // select组件判断options
-            if (column.options) {
-              // 设置响应式
-              Vue.set(column, "selOptions", [])
-              column.selOptions = isFunc(column.options)
-                ? column.options()
-                : column.options
-            }
-            break
-          case "cascader":
-            if (column.options) {
-              // 设置响应式
-              Vue.set(column, "casOptions", [])
-              column.casOptions = isFunc(column.options)
-                ? column.options()
-                : column.options
-            }
-            break
-          default:
-            break
-        }
+        syncOption(column)
         return column
       })
       return row
     },
     queryAction() {
-      // 如果包含日历组件 则需要将出参处理掉 再返回给调用端
       const formItems__cache = this.arrayOptions()
-
       const dataPickerItem = formItems__cache.find(
         (i) => i.type === "datePicker"
       )
