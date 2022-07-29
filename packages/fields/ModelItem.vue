@@ -22,27 +22,27 @@ export default {
   name: "ModelPanel",
   components: {
     Modal,
-    Form,
+    Form
   },
   props: {
     title: {
       type: String,
-      default: null,
+      default: null
     },
     value: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
   data() {
     return {
-      childValue: false,
+      childValue: false
     }
   },
   watch: {
     value(newValue) {
       this.childValue = newValue
-    },
+    }
   },
   methods: {
     cancel() {
@@ -50,8 +50,8 @@ export default {
     },
     backFn() {
       this.$emit("input", this.childValue)
-    },
-  },
+    }
+  }
 }
 </script>
 <style lang="less">

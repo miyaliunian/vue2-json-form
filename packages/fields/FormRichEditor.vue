@@ -17,29 +17,29 @@ export default {
   name: "FormRichEditor",
   components: {
     Col,
-    tinymceEditor,
+    tinymceEditor
   },
   props: {
     isShow: {
       type: Boolean,
-      default: true,
+      default: true
     },
     data: {
       type: Object,
-      default: () => {},
+      default: () => {}
     },
     config: {
       type: Object,
-      default: () => {},
-    },
+      default: () => {}
+    }
   },
   watch: {
     data: {
       handler: (oldV, newV) => {
         console.log(oldV)
       },
-      deep: true,
-    },
-  },
+      deep: true
+    }
+  }
 }
 </script>

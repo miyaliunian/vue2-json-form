@@ -5,7 +5,7 @@
       :prop="config.key"
       :rules="config.rule"
       :style="{
-        marginBottom: config.props.bottom ? `${config.props.bottom}px` : '10px',
+        marginBottom: config.props.bottom ? `${config.props.bottom}px` : '10px'
       }"
     >
       <Input
@@ -25,29 +25,29 @@ export default {
   name: "FormInputItem",
   components: {
     Input,
-    FormItem,
+    FormItem
   },
   props: {
     isShow: {
       type: Boolean,
-      default: true,
+      default: true
     },
     config: {
       type: Object,
-      default: () => {},
+      default: () => {}
     },
     data: {
       type: Object,
-      default: () => {},
+      default: () => {}
     },
     readOnly: {
       type: Boolean,
-      default: false,
+      default: false
     },
     border: {
       type: Boolean,
-      default: true,
-    },
+      default: true
+    }
   },
   computed: {
     inputType() {
@@ -57,17 +57,17 @@ export default {
       return this.config.extendType && this.config.extendType === "textarea"
         ? true
         : false
-    },
+    }
   },
   data() {
     return {
-      validate: null,
+      validate: null
     }
   },
   methods: {
     initValidate(val) {
       // console.log(val);
-    },
+    }
   },
   watch: {
     config: {
@@ -76,9 +76,9 @@ export default {
         // console.log(JSON.parse(JSON.stringify(val)))
         if (val.rule) this.initValidate(JSON.parse(JSON.stringify(val)))
       },
-      deep: true,
-    },
-  },
+      deep: true
+    }
+  }
 }
 </script>
 <style lang="less">

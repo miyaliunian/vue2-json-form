@@ -3,7 +3,7 @@ import {
   Poptip,
   Dropdown,
   DropdownMenu,
-  DropdownItem,
+  DropdownItem
 } from "view-design"
 // 处理table操作按钮
 const tableAction = (h, array) => {
@@ -21,56 +21,56 @@ const tableAction = (h, array) => {
               confirm: true,
               title: item.deleteTitle || "您确认删除这条内容吗？",
               transfer: true,
-              placement: "top-end",
+              placement: "top-end"
             },
             on: {
               "on-ok": item.action,
               "on-cancel": () => {
                 console.log("点击取消")
-              },
-            },
+              }
+            }
           },
           [
             h(Button, {
               props: {
                 type: item.type ? item.type : "primary",
-                disabled: item.disabled(),
+                disabled: item.disabled()
               },
               style: {
-                marginLeft: "5px",
+                marginLeft: "5px"
               },
               domProps: {
-                innerText: item.title,
+                innerText: item.title
               },
               attrs: {
-                title: "",
+                title: ""
               },
-              directives: item.directives,
+              directives: item.directives
               // on: {
               //   click: item.action,
               // },
-            }),
+            })
           ]
         )
       } else {
         btn = h(Button, {
           props: {
             type: item.type ? item.type : "primary",
-            disabled: item.disabled(),
+            disabled: item.disabled()
           },
           style: {
-            marginLeft: "5px",
+            marginLeft: "5px"
           },
           domProps: {
-            innerText: item.title,
+            innerText: item.title
           },
           attrs: {
-            title: "",
+            title: ""
           },
           directives: item.directives,
           on: {
-            click: item.action,
-          },
+            click: item.action
+          }
         })
       }
       btnArray.push(btn)
@@ -80,8 +80,8 @@ const tableAction = (h, array) => {
           DropdownItem,
           {
             nativeOn: {
-              click: item.action,
-            },
+              click: item.action
+            }
           },
           item.title
         )
@@ -92,8 +92,8 @@ const tableAction = (h, array) => {
     Dropdown,
     {
       props: {
-        transfer: true,
-      },
+        transfer: true
+      }
     },
     [
       h(
@@ -101,28 +101,28 @@ const tableAction = (h, array) => {
         {
           props: {
             type: "default",
-            size: "small",
+            size: "small"
           },
           style: {
-            marginLeft: "5px",
-          },
+            marginLeft: "5px"
+          }
         },
         [
           h("span", "更多"),
           h("Icon", {
             props: {
-              type: "ios-arrow-down",
-            },
-          }),
+              type: "ios-arrow-down"
+            }
+          })
         ]
       ),
       h(
         DropdownMenu,
         {
-          slot: "list",
+          slot: "list"
         },
         btnMore
-      ),
+      )
     ]
   )
   if (array.length > 3) {

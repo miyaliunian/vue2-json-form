@@ -5,7 +5,7 @@
       :prop="config.key"
       :rules="config.rule"
       :style="{
-        marginBottom: config.props.bottom ? `${config.props.bottom}px` : '10px',
+        marginBottom: config.props.bottom ? `${config.props.bottom}px` : '10px'
       }"
     >
       <Input
@@ -25,52 +25,52 @@ export default {
   name: "FormInputItem",
   components: {
     Input,
-    FormItem,
+    FormItem
   },
   props: {
     isShow: {
       type: Boolean,
-      default: true,
+      default: true
     },
     config: {
       type: Object,
-      default: () => {},
+      default: () => {}
     },
     data: {
       type: Object,
-      default: () => {},
+      default: () => {}
     },
     readOnly: {
       type: Boolean,
-      default: false,
+      default: false
     },
     border: {
       type: Boolean,
-      default: true,
-    },
+      default: true
+    }
   },
   data() {
     return {
-      validate: null,
+      validate: null
     }
   },
   computed: {
     inputType() {
       const { extendType = "text" } = this.config
       return extendType
-    },
+    }
   },
   methods: {
-    initValidate(val) {},
+    initValidate(val) {}
   },
   watch: {
     config: {
       handler(val) {
         if (val.rule) this.initValidate(JSON.parse(JSON.stringify(val)))
       },
-      deep: true,
-    },
-  },
+      deep: true
+    }
+  }
 }
 </script>
 <style lang="less">

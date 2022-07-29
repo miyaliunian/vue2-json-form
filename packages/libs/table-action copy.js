@@ -1,49 +1,49 @@
-import { Button } from "view-design";
+import { Button } from "view-design"
 // 处理table操作按钮
 const tableAction = (h, array) => {
-  const btnArray = [];
-  const btnMore = [];
+  const btnArray = []
+  const btnMore = []
   array.map((item, index) => {
     if (index < 3) {
       const btn = h(Button, {
         props: {
-          type: item.type ? item.type : "primary",
+          type: item.type ? item.type : "primary"
         },
         style: {
-          marginLeft: "5px",
+          marginLeft: "5px"
         },
         domProps: {
-          innerText: item.title,
+          innerText: item.title
         },
         attrs: {
-          title: "",
+          title: ""
         },
         directives: item.directives,
         on: {
-          click: item.action,
-        },
-      });
-      btnArray.push(btn);
+          click: item.action
+        }
+      })
+      btnArray.push(btn)
     } else {
       btnMore.push(
         h(
           "DropdownItem",
           {
             nativeOn: {
-              click: item.action,
-            },
+              click: item.action
+            }
           },
           item.title
         )
-      );
+      )
     }
-  });
+  })
   const dropdown = h(
     "Dropdown",
     {
       props: {
-        transfer: true,
-      },
+        transfer: true
+      }
     },
     [
       h(
@@ -51,33 +51,33 @@ const tableAction = (h, array) => {
         {
           props: {
             type: "default",
-            size: "small",
+            size: "small"
           },
           style: {
-            marginLeft: "5px",
-          },
+            marginLeft: "5px"
+          }
         },
         [
           h("span", "更多"),
           h("Icon", {
             props: {
-              type: "ios-arrow-down",
-            },
-          }),
+              type: "ios-arrow-down"
+            }
+          })
         ]
       ),
       h(
         "DropdownMenu",
         {
-          slot: "list",
+          slot: "list"
         },
         btnMore
-      ),
+      )
     ]
-  );
+  )
   if (array.length > 3) {
-    btnArray.push(dropdown);
+    btnArray.push(dropdown)
   }
-  return btnArray;
-};
-export default tableAction;
+  return btnArray
+}
+export default tableAction

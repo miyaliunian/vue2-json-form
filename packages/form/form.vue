@@ -68,34 +68,34 @@ export default {
     Card,
     Row,
     Divider,
-    DynamicCell,
+    DynamicCell
   },
   props: {
     cardWrapper: {
       type: Boolean,
-      default: true,
+      default: true
     },
     data: {
       type: Object,
       default: () => {},
-      require: true,
+      require: true
     },
     config: {
       type: Array,
       default: () => [],
-      require: true,
-    },
+      require: true
+    }
   },
   data() {
     return {
-      formData: {},
+      formData: {}
     }
   },
   computed: {
     // 配置初始化
     configForm() {
       return this.config.map((item) => this.formateItem(item, this.formData))
-    },
+    }
   },
   methods: {
     formateItem(item, form) {
@@ -112,7 +112,7 @@ export default {
               Object.keys(column.control).find((key) => key === "hiddenOption")
             ) {
               const {
-                control: { hiddenOption },
+                control: { hiddenOption }
               } = column
               column._ifShow = isFunc(hiddenOption) ? hiddenOption(form) : true
             }
@@ -123,7 +123,7 @@ export default {
             ) {
               // console.log("是否处理枚举转换")
               const {
-                control: { enumOption },
+                control: { enumOption }
               } = column
               if (isObj(enumOption) && enumOption.hasOwnProperty("type")) {
                 // console.log("可以处理枚举转换", form, column)
@@ -139,7 +139,7 @@ export default {
             ) {
               // console.log("是否处理日期格式化")
               const {
-                control: { formatOption },
+                control: { formatOption }
               } = column
               if (
                 isObj(formatOption) &&
@@ -156,7 +156,7 @@ export default {
         return column
       })
       return { splitLine, row, lineTitle }
-    },
+    }
   },
   watch: {
     data: {
@@ -164,9 +164,9 @@ export default {
         this.formData = JSON.parse(JSON.stringify(val))
       },
       immediate: true,
-      deep: true,
-    },
-  },
+      deep: true
+    }
+  }
 }
 </script>
 <style lang="less">

@@ -22,14 +22,14 @@ export default {
   name: "CascaderItem",
   components: {
     Col,
-    Cascader,
+    Cascader
   },
   props,
   methods: {
     change(...arges) {
       this.$emit("change", { ...arges })
-    },
-  },
+    }
+  }
 }
 </script>
 <style lang="less">

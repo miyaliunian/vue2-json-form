@@ -27,14 +27,14 @@ export default {
   components: {
     Col,
     Select,
-    Option,
+    Option
   },
   props,
   methods: {
     change(event) {
       this.$emit("change", event)
-    },
-  },
+    }
+  }
 }
 </script>
 <style lang="less">

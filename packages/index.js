@@ -11,7 +11,7 @@ const comps = [
   FormPanel,
   EditFormPanel,
   NewFormPanel,
-  DetailFormPanel,
+  DetailFormPanel
 ]
 const install = (Vue) => {
   comps.forEach((comp) => {
@@ -24,5 +24,5 @@ if (typeof window !== "undefined" && window.use) {
 }
 
 export default {
-  install,
+  install
 }

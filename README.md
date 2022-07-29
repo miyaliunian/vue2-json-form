@@ -583,8 +583,8 @@ formItems: [
           on: {
             change: () => {
               // 回调函数
-            },
-          },
+            }
+          }
         },
         options: [
           // 数据选项
@@ -594,17 +594,17 @@ formItems: [
             children: [
               {
                 value: "gugong",
-                label: "故宫",
+                label: "故宫"
               },
               {
                 value: "tiantan",
-                label: "天坛",
+                label: "天坛"
               },
               {
                 value: "wangfujing",
-                label: "王府井",
-              },
-            ],
+                label: "王府井"
+              }
+            ]
           },
           {
             value: "jiangsu",
@@ -616,9 +616,9 @@ formItems: [
                 children: [
                   {
                     value: "fuzimiao",
-                    label: "夫子庙",
-                  },
-                ],
+                    label: "夫子庙"
+                  }
+                ]
               },
               {
                 value: "suzhou",
@@ -626,17 +626,17 @@ formItems: [
                 children: [
                   {
                     value: "zhuozhengyuan",
-                    label: "拙政园",
+                    label: "拙政园"
                   },
                   {
                     value: "shizilin",
-                    label: "狮子林",
-                  },
-                ],
-              },
-            ],
-          },
-        ],
+                    label: "狮子林"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       },
       {
         label: "场地",
@@ -647,20 +647,20 @@ formItems: [
           // 下拉框数据
           {
             label: "全部",
-            value: "全部",
+            value: "全部"
           },
           {
             label: "零食区",
-            value: "零食区间",
-          },
-        ],
+            value: "零食区间"
+          }
+        ]
       },
       {
         label: "商户编号",
         key: "inputVal",
         placeholder: "占位符",
         type: "Input", // 输入框
-        span: 6,
+        span: 6
       },
       {
         label: "时间框",
@@ -668,10 +668,10 @@ formItems: [
         placeholder: "占位符",
         type: "datePicker", // 输入框
         // extendType: 'daterange', // date 单选  daterange 时间段
-        span: 6,
-      },
-    ],
-  },
+        span: 6
+      }
+    ]
+  }
 ]
 ```
 

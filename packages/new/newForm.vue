@@ -45,19 +45,19 @@ export default {
     Button,
     ModelPanel,
     DynamicCell,
-    Message,
+    Message
   },
   props: {
     data: {
       type: Object,
       default: () => {},
-      require: true,
+      require: true
     },
     config: {
       type: Array,
       default: () => [],
-      require: true,
-    },
+      require: true
+    }
   },
   computed: {
     formData() {
@@ -66,7 +66,7 @@ export default {
     // 配置初始化
     configForm() {
       return this.config.map((item) => this.formateItem(item, this.data))
-    },
+    }
   },
   methods: {
     formateItem(item, form) {
@@ -80,13 +80,13 @@ export default {
           if ("control" in column) {
             if (Object.keys(column.control).find((key) => key === "handle")) {
               const {
-                control: { handle },
+                control: { handle }
               } = column
               column._ifShow = isFunc(handle) ? handle(form) : true
             }
           }
         }
-        syncOption(column)
+        syncOption(column, form)
         return column
       })
       return { splitLine, row, lineTitle }
@@ -109,7 +109,7 @@ export default {
           Message.error("参数验证错误，请仔细填写表单数据!")
         }
       })
-    },
+    }
   },
   watch: {
     formData: {
@@ -117,9 +117,9 @@ export default {
         console.log("new -> watch:", newValue)
         // this.config.map((item) => this.formateItem(item, val))
       },
-      deep: true,
-    },
-  },
+      deep: true
+    }
+  }
 }
 </script>
 <style lang="less">

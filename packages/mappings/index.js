@@ -4,28 +4,28 @@ export const componentsMap = {
   Input: {
     component: "InputItem",
     props: {
-      clearable: true,
-    },
+      clearable: true
+    }
   },
   // 级联
   Cascader: {
     component: "CascaderItem",
     props: {
-      clearable: true,
-    },
+      clearable: true
+    }
   },
   //日历
   Datepicker: {
     component: "DatePickerItem",
     props: {
-      clearable: true,
-    },
+      clearable: true
+    }
   },
   // 下拉框
   Select: {
     component: "SelectItem",
     props: {
-      clearable: true,
-    },
-  },
-};
+      clearable: true
+    }
+  }
+}

@@ -4,7 +4,7 @@
       :label="`${config.label}`"
       v-if="isShow"
       :style="{
-        marginBottom: config.props.bottom ? `${config.props.bottom}px` : '10px',
+        marginBottom: config.props.bottom ? `${config.props.bottom}px` : '10px'
       }"
     >
       <Cascader
@@ -26,21 +26,21 @@ export default {
   name: "FormCascaderItem",
   components: {
     Cascader,
-    FormItem,
+    FormItem
   },
   props: {
     isShow: {
       type: Boolean,
-      default: true,
+      default: true
     },
     config: {
       type: Object,
-      default: () => {},
+      default: () => {}
     },
     data: {
       type: Object,
-      default: () => {},
-    },
+      default: () => {}
+    }
   },
   computed: {
     cascadeModel: {
@@ -50,13 +50,13 @@ export default {
             Math.floor(this.data[this.config.key[0]] / 10000) * 10000
           ).toString(),
           this.data[this.config.key[0]],
-          this.data[this.config.key[1]],
+          this.data[this.config.key[1]]
         ]
       },
       set(val) {
         this.data[this.config.key[0]] = val[1]
         this.data[this.config.key[1]] = val[2]
-      },
+      }
     },
     disabled() {
       const { props = {} } = this.config
@@ -64,8 +64,8 @@ export default {
         return props["disabled"]
       }
       return false
-    },
-  },
+    }
+  }
 }
 </script>
 <style lang="less">

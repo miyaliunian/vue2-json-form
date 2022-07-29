@@ -1,6 +1,6 @@
 import Vue from "vue"
 import { isFunc } from "./lib"
-export const syncOption = (column) => {
+export const syncOption = (column, form) => {
   switch (column.type) {
     case "select": // select 组件判断options
       Vue.set(column, "selOptions", [])

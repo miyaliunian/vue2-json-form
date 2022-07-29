@@ -1,12 +1,16 @@
 {
   "name": "beansflight-json-form",
-  "version": "0.23.14",
+  "version": "0.23.16",
   "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
     "lib": "vue-cli-service build --target lib packages/index.js --name beansflight-json-form --dest lib",
     "deploy": "node ./bin/deploy.js",
-    "version": "conventional-changelog -p angular -i CHANGELOG.md -s"
+    "version": "conventional-changelog -p angular -i CHANGELOG.md -s",
+    "prepare": "husky install",
+    "lint": "lint-staged",
+    "prettier": "prettier --write .",
+    "commit": "git-cz"
   },
   "main": "lib/beansflight-json-form.umd.min.js",
   "keywords": [
@@ -33,6 +37,8 @@
     "vue-enum": "1.0.5"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.0.3",
+    "@commitlint/config-conventional": "^17.0.3",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
@@ -51,6 +57,7 @@
     "lerna": "^4.0.0",
     "less": "^2.7.3",
     "less-loader": "^4.0.5",
+    "lint-staged": "^13.0.3",
     "ora": "^5.4.1",
     "prettier": "^2.2.1",
     "uglifyjs-webpack-plugin": "^2.2.0",

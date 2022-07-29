@@ -6,18 +6,18 @@
         v-if="editable"
         @click="startEdit"
         class="tables-edit-btn"
-        style="padding: 2px 4px;"
+        style="padding: 2px 4px"
         type="text"
       >
         <Icon type="md-create"></Icon>
       </Button>
     </div>
     <div v-else class="tables-editting-con">
-      <Input :value="value" @input="handleInput" class="tables-edit-input"/>
-      <Button @click="saveEdit" style="padding: 6px 4px;" type="text">
+      <Input :value="value" @input="handleInput" class="tables-edit-input" />
+      <Button @click="saveEdit" style="padding: 6px 4px" type="text">
         <Icon type="md-checkmark"></Icon>
       </Button>
-      <Button @click="canceltEdit" style="padding: 6px 4px;" type="text">
+      <Button @click="canceltEdit" style="padding: 6px 4px" type="text">
         <Icon type="md-close"></Icon>
       </Button>
     </div>
@@ -26,7 +26,7 @@
 
 <script>
 export default {
-  name: 'TablesEdit',
+  name: "TablesEdit",
   props: {
     // 当前编辑的单元格值
     value: {
@@ -51,25 +51,28 @@ export default {
   },
   computed: {
     // 判断是否处于编辑状态
-    isEditting () {
-      return this.edittingCellId === `editting-${this.params.index}-${this.params.column.key}`;
+    isEditting() {
+      return (
+        this.edittingCellId ===
+        `editting-${this.params.index}-${this.params.column.key}`
+      )
     }
   },
   methods: {
-    handleInput (val) {
-      this.$emit('input', val);
+    handleInput(val) {
+      this.$emit("input", val)
     },
-    startEdit () {
-      this.$emit('on-start-edit', this.params);
+    startEdit() {
+      this.$emit("on-start-edit", this.params)
     },
-    saveEdit () {
-      this.$emit('on-save-edit', this.params);
+    saveEdit() {
+      this.$emit("on-save-edit", this.params)
     },
-    canceltEdit () {
-      this.$emit('on-cancel-edit', this.params);
+    canceltEdit() {
+      this.$emit("on-cancel-edit", this.params)
     }
   }
-};
+}
 </script>
 
 <style lang="less">

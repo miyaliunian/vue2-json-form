@@ -5,7 +5,7 @@
       :prop="config.key"
       v-if="isShow"
       :style="{
-        marginBottom: config.props.bottom ? `${config.props.bottom}px` : '10px',
+        marginBottom: config.props.bottom ? `${config.props.bottom}px` : '10px'
       }"
       :rules="config.rule"
     >
@@ -28,49 +28,49 @@ export default {
   name: "FormDatepickerItem",
   components: {
     DatePicker,
-    FormItem,
+    FormItem
   },
   props: {
     isShow: {
       type: Boolean,
-      default: true,
+      default: true
     },
     config: {
       type: Object,
-      default: () => {},
+      default: () => {}
     },
     data: {
       type: Object,
-      default: () => {},
+      default: () => {}
     },
     readOnly: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
   data() {
     return {
-      validate: null,
+      validate: null
     }
   },
   computed: {
     datePickerType() {
       return this.config.extendType || "date"
-    },
+    }
   },
   methods: {
     initValidate(val) {
       // console.log(val);
-    },
+    }
   },
   watch: {
     config: {
       handler(val) {
         if (val.rule) this.initValidate(JSON.parse(JSON.stringify(val)))
       },
-      deep: true,
-    },
-  },
+      deep: true
+    }
+  }
 }
 </script>
 <style lang="less">

@@ -5,7 +5,7 @@
       :prop="config.key"
       v-if="isShow"
       :style="{
-        marginBottom: config.props.bottom ? `${config.props.bottom}px` : '10px',
+        marginBottom: config.props.bottom ? `${config.props.bottom}px` : '10px'
       }"
       :rules="config.rule"
     >
@@ -29,21 +29,21 @@ export default {
   components: {
     Col,
     FormItem,
-    Input,
+    Input
   },
   props: {
     isShow: {
       type: Boolean,
-      default: true,
+      default: true
     },
     config: {
       type: Object,
-      default: () => {},
+      default: () => {}
     },
     data: {
       type: Object,
-      default: () => {},
-    },
+      default: () => {}
+    }
   },
   computed: {
     inputType() {
@@ -71,8 +71,8 @@ export default {
         return props["maxlength"]
       }
       return null
-    },
-  },
+    }
+  }
 }
 </script>
 <style lang="less">

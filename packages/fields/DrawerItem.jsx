@@ -3,16 +3,16 @@ export default {
   name: "DrawerItem",
   props: {
     value: {
-      type: Boolean,
+      type: Boolean
     },
     title: {
       type: String,
-      default: null,
-    },
+      default: null
+    }
   },
   data() {
     return {
-      show: false,
+      show: false
     }
   },
   render(h) {
@@ -31,11 +31,11 @@ export default {
   methods: {
     closed() {
       this.$emit("input", this.show)
-    },
+    }
   },
   watch: {
     value(newValue) {
       this.show = newValue
-    },
-  },
+    }
+  }
 }

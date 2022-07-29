@@ -21,7 +21,7 @@ export default {
   name: "DatePickerItem",
   components: {
     DatePicker,
-    Col,
+    Col
   },
   props: ["config", "rule"],
   computed: {
@@ -30,16 +30,16 @@ export default {
     },
     options() {
       const {
-        config: { props = {} },
+        config: { props = {} }
       } = this
       if ("disabledDate" in props) {
         return {
-          disabledDate: props["disabledDate"],
+          disabledDate: props["disabledDate"]
         }
       }
       return null
-    },
-  },
+    }
+  }
 }
 </script>
 <style lang="less">

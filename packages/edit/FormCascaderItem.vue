@@ -25,21 +25,21 @@ export default {
   name: "FormCascaderItem",
   components: {
     Cascader,
-    FormItem,
+    FormItem
   },
   props: {
     config: {
       type: Object,
-      default: () => {},
+      default: () => {}
     },
     data: {
       type: Object,
-      default: () => {},
-    },
+      default: () => {}
+    }
   },
   data() {
     return {
-      cvalus: [],
+      cvalus: []
     }
   },
   computed: {
@@ -50,13 +50,13 @@ export default {
             Math.floor(this.data[this.config.key[0]] / 10000) * 10000
           ).toString(),
           this.data[this.config.key[0]],
-          this.data[this.config.key[1]],
+          this.data[this.config.key[1]]
         ]
       },
       set(val) {
         this.data[this.config.key[0]] = val[1]
         this.data[this.config.key[1]] = val[2]
-      },
+      }
     },
     disabled() {
       const { props = {} } = this.config
@@ -64,8 +64,8 @@ export default {
         return props["disabled"]
       }
       return false
-    },
-  },
+    }
+  }
 }
 </script>
 <style lang="less">

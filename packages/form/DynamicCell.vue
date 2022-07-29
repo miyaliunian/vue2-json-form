@@ -17,14 +17,14 @@ export default {
     FormDatepickerItem,
     FormCheckboxItem,
     FormRadioItem,
-    FormSwitchItem,
+    FormSwitchItem
   },
   props: {
     config: Object,
     data: Object,
     readOnly: Boolean,
     border: Boolean,
-    isShow: Boolean,
+    isShow: Boolean
   },
   render(h) {
     const { config, data, readOnly, border, isShow } = this
@@ -37,9 +37,9 @@ export default {
         data,
         readOnly,
         border,
-        isShow,
-      },
+        isShow
+      }
     })
-  },
+  }
 }
 </script>

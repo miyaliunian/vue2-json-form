@@ -6,12 +6,12 @@ export default {
   props: {
     option: {
       type: Object,
-      default: () => {},
+      default: () => {}
     },
     tableRef: {
       type: Object,
-      default: () => {},
-    },
+      default: () => {}
+    }
   },
   render(h, ctx) {
     // console.log(this.option.multiple)
@@ -22,22 +22,22 @@ export default {
         props: {
           type: this.option.type ? this.option.type : "primary",
           icon: this.option.icon,
-          disabled: this.option.disabled || false,
+          disabled: this.option.disabled || false
         },
         style: {
-          marginLeft: "7px",
+          marginLeft: "7px"
         },
         attrs: {
-          title: "",
+          title: ""
         },
         directives: this.option.directives,
         on: {
           click: this.option.multiple
             ? () => this.option.multiClick(this.tableRef.getSelection())
-            : () => this.option.click(),
-        },
+            : () => this.option.click()
+        }
       },
       this.option.title
     )
-  },
+  }
 }

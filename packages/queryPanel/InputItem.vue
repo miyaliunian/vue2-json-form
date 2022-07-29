@@ -10,16 +10,16 @@
   </Col>
 </template>
 <script>
-import props from "../common/comPros";
-import { Col, Input } from "view-design";
+import props from "../common/comPros"
+import { Col, Input } from "view-design"
 export default {
   name: "InputItem",
   components: {
     Col,
-    Input,
+    Input
   },
-  props,
-};
+  props
+}
 </script>
 <style lang="less">
 @import "../assets/styles/theme.less";

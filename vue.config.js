@@ -9,16 +9,16 @@ module.exports = {
     index: {
       entry: "examples/main.js",
       template: "public/index.html",
-      filename: "index.html",
-    },
+      filename: "index.html"
+    }
   },
   devServer: {
     disableHostCheck: true,
     open: true,
     overlay: {
       warnings: true,
-      errors: true,
-    },
+      errors: true
+    }
   },
   chainWebpack: (config) => {
     config.resolve.alias.set("@", resolve("packages"))
@@ -39,5 +39,5 @@ module.exports = {
       .tap((options) => {
         return Object.assign(options, { limit: 100 * 1024 })
       })
-  },
+  }
 }

@@ -24,7 +24,7 @@ export default {
   },
   data() {
     return {
-      isFullscreen: 0,
+      isFullscreen: 0
     }
   },
   methods: {
@@ -36,6 +36,6 @@ export default {
         main.requestFullscreen()
       }
       this.isFullscreen = this.isFullscreen ? 0 : 1
-    },
-  },
+    }
+  }
 }

@@ -128,7 +128,7 @@ import {
   Switch,
   Avatar,
   Icon,
-  Tooltip,
+  Tooltip
 } from "view-design"
 import dayjs from "dayjs"
 import TableOps from "../components/tableOps"
@@ -147,147 +147,147 @@ export default {
     Divider,
     Icon,
     Tooltip,
-    TableOps,
+    TableOps
   },
   props: {
     // 是否显示总页数
     showTotal: {
       type: Boolean,
-      default: false,
+      default: false
     },
     // 开启多选
     multi: {
       type: Boolean,
-      default: true,
+      default: true
     },
     // 顶部按钮操作区配置
     panelConfig: {
       type: Object,
-      default: () => {},
+      default: () => {}
     },
     // table 表格数据 集合类型
     value: {
       type: Array,
       default() {
         return []
-      },
+      }
     },
     // 是否显示页码
     pageShow: {
       type: Boolean,
-      default: true,
+      default: true
     },
     // 表头
     columns: {
       type: Array,
       default() {
         return []
-      },
+      }
     },
     pageTotal: {
       type: Number,
-      default: 0,
+      default: 0
     },
     // 显示电梯，可以快速切换到某一页
     showElevator: {
       type: Boolean,
-      default: true,
+      default: true
     },
     // table页码
     pageNumber: {
       type: Number,
-      default: 1,
+      default: 1
     },
     // 每页显示条数
     pageSize: {
       type: Number,
-      default: 10,
+      default: 10
     },
     // 显示分页，用来改变page-size
     showSizer: {
       type: Boolean,
-      default: true,
+      default: true
     },
     // 显示总数
     showTotal: {
       type: Boolean,
-      default: true,
+      default: true
     },
     // 表格尺寸，可选值为 large、small、default 或者不填
     size: {
       type: String,
-      default: null,
+      default: null
     },
     // 表格宽度，单位 px
     width: {
-      type: [Number, String],
+      type: [Number, String]
     },
     // 表格高度，单位 px，设置后，如果表格内容大于此值，会固定表头
     height: {
-      type: [Number, String],
+      type: [Number, String]
     },
     // 是否显示间隔斑马纹
     stripe: {
       type: Boolean,
-      default: false,
+      default: false
     },
     // 是否显示纵向边框
     border: {
       type: Boolean,
-      default: false,
+      default: false
     },
     // 是否显示表头
     showHeader: {
       type: Boolean,
-      default: true,
+      default: true
     },
     // 是否支持高亮选中的行，即单选
     highlightRow: {
       type: Boolean,
-      default: false,
+      default: false
     },
     // 行的 className 的回调方法，传入参数：row：当前行数据 ,index：当前行的索引
     rowClassName: {
       type: Function,
       default() {
         return ""
-      },
+      }
     },
     // 筛选数据为空时显示的提示内容
     noFilteredDataText: {
       type: String,
-      default: "",
+      default: ""
     },
     // 禁用鼠标悬停时的高亮
     disabledHover: {
-      type: Boolean,
+      type: Boolean
     },
     // 表格是否加载中
     loading: {
       type: Boolean,
-      default: false,
+      default: false
     },
     /**
      * @description 全局设置是否可编辑
      */
     editable: {
       type: Boolean,
-      default: false,
+      default: false
     },
     /**
      * @description 是否可搜索
      */
     searchable: {
       type: Boolean,
-      default: false,
+      default: false
     },
     /**
      * @description 搜索控件所在位置，'top' / 'bottom'
      */
     searchPlace: {
       type: String,
-      default: "top",
-    },
+      default: "top"
+    }
   },
   /**
    * Events
@@ -326,7 +326,7 @@ export default {
       // 默认显示哪些按钮
       defBtns: [],
       // 是否能全屏
-      isFullscreen: 0,
+      isFullscreen: 0
     }
   },
   watch: {
@@ -340,7 +340,7 @@ export default {
     },
     panelConfig(options) {
       this.handleHeaderBtnOPtions()
-    },
+    }
   },
   mounted() {
     this.handleColumns(this.columns)
@@ -371,7 +371,7 @@ export default {
         options: vmBtn = [],
         splitLine = false,
         lineTitle = "",
-        defBtns = [],
+        defBtns = []
       } = options
       // 分割线
       this.showDivider = splitLine
@@ -401,7 +401,7 @@ export default {
             params,
             value: this.insideTableData[params.index][params.column.key],
             edittingCellId: this.edittingCellId,
-            editable: this.editable,
+            editable: this.editable
           },
           on: {
             input: (val) => {
@@ -424,8 +424,8 @@ export default {
                 Object.assign(params, { value: this.edittingText })
               )
               this.edittingCellId = ""
-            },
-          },
+            }
+          }
         })
       return item
     },
@@ -453,7 +453,7 @@ export default {
           columns.unshift({
             type: "selection",
             width: 30,
-            align: "center",
+            align: "center"
           })
         }
       }
@@ -483,8 +483,8 @@ export default {
                 src: params.row[res.key],
                 icon: "ios-person",
                 shape: "square",
-                disabled: true,
-              },
+                disabled: true
+              }
             })
           }
         }
@@ -494,8 +494,8 @@ export default {
             return h(Switch, {
               props: {
                 value: params.row[res.key],
-                disabled: true,
-              },
+                disabled: true
+              }
             })
           }
         }
@@ -520,8 +520,8 @@ export default {
                 props: {
                   maxWidth: "200",
                   placement: "right",
-                  content: params.row[res.key],
-                },
+                  content: params.row[res.key]
+                }
               },
               [params.row[res.key]]
             )
@@ -612,7 +612,7 @@ export default {
       const selectRows = this.$refs.tablesMain.getSelection()
       if (selectRows.length < 1) {
         this.$Notice.error({
-          desc: "请选择至少一条数据",
+          desc: "请选择至少一条数据"
         })
         return
       }
@@ -627,13 +627,13 @@ export default {
       const selectRows = this.$refs.tablesMain.getSelection()
       if (selectRows.length < 1) {
         this.$Notice.error({
-          desc: "请选择至少一条数据",
+          desc: "请选择至少一条数据"
         })
         return
       }
       this.$emit("batchExportAction", { rows: selectRows })
-    },
-  },
+    }
+  }
 }
 </script>
 <style lang="less">

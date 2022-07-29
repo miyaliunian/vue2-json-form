@@ -20,7 +20,7 @@ export default {
     FormCheckboxItem,
     FormRadioItem,
     FormSwitchItem,
-    FormUploadItem,
+    FormUploadItem
   },
   props,
   render(h) {
@@ -32,9 +32,9 @@ export default {
       props: {
         config,
         data,
-        isShow,
-      },
+        isShow
+      }
     })
-  },
+  }
 }
 </script>

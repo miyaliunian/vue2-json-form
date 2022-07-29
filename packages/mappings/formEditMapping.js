@@ -2,62 +2,62 @@
 export const componentsMap = {
   // 附件上传
   Upload: {
-    component: "FormUploadItem",
+    component: "FormUploadItem"
   },
   // 输入框
   Input: {
     component: "FormInputItem",
     props: {
       readOnly: false,
-      maxlength: 40,
-    },
+      maxlength: 40
+    }
   },
 
   // 富文本编辑器
   Rich: {
-    component: "FormRichEditor",
+    component: "FormRichEditor"
   },
 
   // 级联
   Cascader: {
     component: "FormCascaderItem",
     props: {
-      readOnly: false,
-    },
+      readOnly: false
+    }
   },
   //日历
   Datepicker: {
     component: "FormDatepickerItem",
     props: {
-      readOnly: false,
-    },
+      readOnly: false
+    }
   },
   // 下拉框
   Select: {
     component: "FormSelectItem",
     props: {
-      readOnly: false,
-    },
+      readOnly: false
+    }
   },
   // 多选框
   Checkbox: {
     component: "FormCheckboxItem",
     props: {
       // readOnly: true,
-    },
+    }
   },
   // 多选框
   Radio: {
     component: "FormRadioItem",
     props: {
       // readOnly: true,
-    },
+    }
   },
   // Switch 滑块
   Switch: {
     component: "FormSwitchItem",
     props: {
       // readOnly: true,
-    },
-  },
+    }
+  }
 }

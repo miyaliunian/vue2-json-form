@@ -38,16 +38,16 @@ export default {
   props: {
     isShow: {
       type: Boolean,
-      default: true,
+      default: true
     },
     config: {
       type: Object,
-      default: () => {},
+      default: () => {}
     },
     data: {
       type: Object,
-      default: () => {},
-    },
+      default: () => {}
+    }
   },
   computed: {
     disabled() {
@@ -62,13 +62,17 @@ export default {
     },
 
     srcOrig() {
-      return this.data[this.config.key] ? this.data[this.config.key].length > 0 ? true: false: false
+      return this.data[this.config.key]
+        ? this.data[this.config.key].length > 0
+          ? true
+          : false
+        : false
     },
     renderConfig() {
       const { _ifShow = true } = this.config
       return _ifShow
-    },
-  },
+    }
+  }
 }
 </script>
 

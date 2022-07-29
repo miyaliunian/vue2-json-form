@@ -8,12 +8,12 @@ export default {
   props: {
     config: {
       type: Object,
-      default: () => {},
+      default: () => {}
     },
     isShow: {
       type: Boolean,
-      default: true,
-    },
+      default: true
+    }
   },
   render(h) {
     const { config } = this
@@ -62,7 +62,7 @@ export default {
     },
     error(error, file, fileList) {
       const {
-        config: { control },
+        config: { control }
       } = this
       if (control && ERROR in control) {
         control[ERROR](error, file, fileList, (res) => {
@@ -73,7 +73,7 @@ export default {
     },
     success(response, file, fileList) {
       const {
-        config: { control },
+        config: { control }
       } = this
       if (control && SUCCESS in control) {
         control[SUCCESS](file, fileList, (res) => {
@@ -84,7 +84,7 @@ export default {
     },
     formateError(file, fileList) {
       const {
-        config: { control },
+        config: { control }
       } = this
       Message.error("文件格式验证失败!")
       if (control && FORMATE_ERROE in control) {
@@ -96,7 +96,7 @@ export default {
     },
     remove(file, fileList) {
       const {
-        config: { control },
+        config: { control }
       } = this
       console.log("remove被调用")
       if (control && REMOVE in control) {
@@ -105,6 +105,6 @@ export default {
           this.$refs.uploadItem.clearFiles()
         })
       }
-    },
-  },
+    }
+  }
 }

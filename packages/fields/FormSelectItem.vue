@@ -5,7 +5,7 @@
       :prop="config.key"
       v-if="isShow"
       :style="{
-        marginBottom: config.props.bottom ? `${config.props.bottom}px` : '10px',
+        marginBottom: config.props.bottom ? `${config.props.bottom}px` : '10px'
       }"
       :rules="config.rule"
     >
@@ -36,21 +36,21 @@ export default {
     Col,
     FormItem,
     Select,
-    Option,
+    Option
   },
   props: {
     isShow: {
       type: Boolean,
-      default: true,
+      default: true
     },
     config: {
       type: Object,
-      default: () => {},
+      default: () => {}
     },
     data: {
       type: Object,
-      default: () => {},
-    },
+      default: () => {}
+    }
   },
   computed: {
     disabled() {
@@ -59,19 +59,19 @@ export default {
         return props["disabled"]
       }
       return false
-    },
+    }
   },
   watch: {
     config: {
       handler: (oldV, newV) => {},
-      deep: true,
-    },
+      deep: true
+    }
   },
   methods: {
     change(event) {
       this.$emit("change", event)
-    },
-  },
+    }
+  }
 }
 </script>
 <style lang="less">

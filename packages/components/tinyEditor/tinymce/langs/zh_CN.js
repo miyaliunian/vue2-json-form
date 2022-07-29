@@ -1,4 +1,4 @@
-import tinymce from "tinymce";
+import tinymce from "tinymce"
 tinymce.addI18n("zh_CN", {
   Redo: "\u91cd\u505a",
   Undo: "\u64a4\u9500",
@@ -492,5 +492,5 @@ tinymce.addI18n("zh_CN", {
   Prev: "\u4e0a\u4e00\u4e2a",
   "Find and replace": "\u67e5\u627e\u548c\u66ff\u6362",
   "Whole words": "\u5168\u5b57\u5339\u914d",
-  "Insert template": "\u63d2\u5165\u6a21\u677f",
-});
+  "Insert template": "\u63d2\u5165\u6a21\u677f"
+})

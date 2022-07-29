@@ -79,19 +79,19 @@ export default {
     Card,
     ButtonGroup,
     Button,
-    DynamicItem,
+    DynamicItem
   },
   props: {
     config: {
       type: Object,
-      default: () => {},
-    },
+      default: () => {}
+    }
   },
   data() {
     return {
       conFlag: false, // 默认收起
       showMoreQyery: false,
-      formModel: JSON.parse(JSON.stringify(this.config.formModel)),
+      formModel: JSON.parse(JSON.stringify(this.config.formModel))
     }
   },
   computed: {
@@ -109,7 +109,7 @@ export default {
           this.config.formModel
         )
       )
-    },
+    }
   },
   methods: {
     showRow(rowIndex) {
@@ -131,7 +131,7 @@ export default {
         let def = componentsMap[titleCase(type)]
         column.tag = def.component
         column.props = Object.assign({}, def.props, column.props)
-        syncOption(column)
+        syncOption(column, form)
         return column
       })
       return row
@@ -173,8 +173,8 @@ export default {
       return formItems
         .map((item) => item.row)
         .reduce((prev, current) => prev.concat(current))
-    },
-  },
+    }
+  }
 }
 </script>
 <style lang="less">

@@ -9,11 +9,11 @@ export default {
     CascaderItem,
     SelectItem,
     InputItem,
-    DatePickerItem,
+    DatePickerItem
   },
   props: {
     config: Object,
-    rule: Object,
+    rule: Object
   },
   render(h) {
     const { config, rule } = this
@@ -23,9 +23,9 @@ export default {
       attrs: { ...this.$attrs, ...config.attrs },
       props: {
         config,
-        rule,
-      },
+        rule
+      }
     })
-  },
+  }
 }
 </script>
