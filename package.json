@@ -1,6 +1,6 @@
 {
   "name": "beansflight-json-form",
-  "version": "0.23.16",
+  "version": "0.23.17",
   "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -10,7 +10,8 @@
     "prepare": "husky install",
     "lint": "lint-staged",
     "prettier": "prettier --write .",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "release": "standard-version"
   },
   "main": "lib/beansflight-json-form.umd.min.js",
   "keywords": [
@@ -60,6 +61,7 @@
     "lint-staged": "^13.0.3",
     "ora": "^5.4.1",
     "prettier": "^2.2.1",
+    "standard-version": "^9.5.0",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "vue-template-compiler": "^2.6.11"
   },
