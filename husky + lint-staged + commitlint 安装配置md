@@ -1,0 +1,165 @@
+eslint: 复制代码质量校验，如 不能写console.log，不能写alert等
+
+ prettier：负责代码格式化 
+
+husky：为git提供生命周期hook，如我们可以在提交代码前做一些校验工作
+
+### 统一配置编辑器的换行、缩进存储格式
+
+*http://editorconfig.org*
+
+配置如下：
+
+```
+# http://editorconfig.org
+root = true
+
+[*]
+indent_style = space                    # 输入的 tab 都用空格代替
+indent_size = 2                         # 一个 tab 用 2 个空格代替
+# end_of_line = lf                      # 换行符使用 unix 的换行符 \n
+charset = utf-8                         # 字符编码 utf-8
+trim_trailing_whitespace = true         # 去掉每行末尾的空格
+insert_final_newline = true             # 每个文件末尾都加一个空行
+
+[*.md]
+trim_trailing_whitespace = false        # .md 文件不去掉每行末尾的空格
+```
+
+
+
+#### 配置 Git Hook 强制执行编码风格检测与修正
+
+- `husky` 它会安装一系列 git hook 到项目的 `.git/hook` 目录中，这些钩子可以检测 `package.json` 中的 `scripts` 脚本命令配置，并在代码提交时执行它（我们这里利用 `pre-commit` 钩子）
+
+- `lint-staged` 可以取得所有被提交的文件并依次执行配置好的任务命令
+- `prettier` 配置到 `lint-staged` 的任务中，可以实现修正可自动格式化的编码风格
+
+
+
+### husky
+
+- npm i husky -D
+
+- 在 package.json 中添加 prepare 命令
+
+```javascript
+{
+  "script": {
+    "prepare": "husky install"
+  }
+}
+```
+
+> 执行prepare命令 npm run prepare 会在项目跟目录下创建 .husky/文件夹，用来存放所有的git hooks。
+
+#### 添加commit-msg
+
+```shell
+  yarn husky add .husky/commit-msg 'yarn commitlint --edit "$1"'
+```
+
+
+
+#### 自定义git提交规范
+
+```shell
+npm i @commitlint/cli @commitlint/config-conventional -D
+```
+
+
+
+项目跟目录下创建 commitlint.config.js 在里面定义提交规则
+
+```javascript
+module.exports = {
+  extends: ['@commitlint/config-conventional'],
+  rules: {
+    'body-leading-blank': [2, 'always'],
+    'footer-leading-blank': [1, 'always'],
+    'header-max-length': [2, 'always', 108],
+    'subject-empty': [2, 'never'],
+    'type-empty': [2, 'never'],
+    'type-enum': [
+      2, // type必须输入
+      'always',
+      [
+        'feat', // 新功能 
+        'fix', // 修复bug 
+        'style', // 修改格式，删除代码空格、缩进等
+        'docs', // 文档、注释修改
+        'refactor', // 代码重构，没有功能修改
+        'merge',  // 代码合并
+        'revert',  // 版本回滚
+        'chore', // 构建过程或辅助工具的变动
+        'test',
+        'perf',
+        'build',
+        'ci',
+        'revert',
+        'wip',
+        'workflow',
+        'types',
+        'release',
+      ]
+    ]
+  }
+}
+
+```
+
+
+
+#### 代码规范提交检测
+
+添加 git hooks 执行以下命令，会在.husky/下创建一个名为 pre-commit 的shell脚本，pre-commit钩子会在git提交commit时先触发，执行 npm run lint 命令。
+
+```javascript
+  npx husky add .husky/pre-commit "npm run lint"
+  // 如果不生效请使用yarn
+  yarn husky add .husky/pre-commit "npm run lint"
+复制代码
+```
+
+1. 安装lint-staged（实现代码增量检测，只检测添加到git缓存区的文件）
+
+```javascript
+  npm i lint-staged -D
+复制代码
+```
+
+1. 在 package.json 中添加lint命令
+
+```javascript
+{
+  "script": {
+    "lint": "lint-staged"
+  }
+}
+复制代码
+```
+
+1. 添加lint-staged配置
+
+- 方法一：在`package.json`中添加
+- 方法二：创建`.lintstagedrc` 文件
+- 方法三：创建`lint-staged.config.js` 文件并进行配置
+
+以package.json中添加为例
+
+```javascript
+{
+  "lint-staged": {
+    "*.{js.vue}": [
+      "prettier --write",
+      "eslint --cache --fix"
+    ]
+  }
+}
+复制代码
+```
+
+在 commit 之前，将暂存区的内容做一次 代码检查 和 代码美化，然后再添加到暂存区；然后再 commit。
+
+1. 安装eslint和prettier插件，项目根目录下面配置eslint和prettier规则，然后就可以在git提交时进行代码美化和校验了。。
+
