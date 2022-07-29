@@ -1,165 +1,437 @@
-eslint: 复制代码质量校验，如 不能写console.log，不能写alert等
+> **husky，**是一个为 git 客户端增加 hook 的工具。安装后，它会自动在仓库中的 .git/ 目录下增加相应的钩子；比如 pre-commit 钩子就会在你执行 git commit 的触发。我们可以在 pre-commit 中实现一些比如 lint 检查、单元测试、代码美化等操作。当然，pre-commit 阶段执行的命令当然要保证其速度不要太慢，每次 commit 等很久体验不好。
 
- prettier：负责代码格式化 
 
-husky：为git提供生命周期hook，如我们可以在提交代码前做一些校验工作
 
-### 统一配置编辑器的换行、缩进存储格式
+> **lint-staged，**一个仅仅过滤出 Git 代码暂存区文件(被 git add 的文件)的工具；这个很实用，因为我们如果对整个项目的代码做一个检查，可能耗时很长，如果是老项目，要对之前的代码做一个代码规范检查并修改的话，这可能就麻烦了，可能导致项目改动很大。所以这个 lint-staged，对团队项目和开源项目来说，是一个很好的工具，它是对个人要提交的代码的一个规范和约束。
 
-*http://editorconfig.org*
 
-配置如下：
 
-```
-# http://editorconfig.org
-root = true
+# 安装配置husky
 
-[*]
-indent_style = space                    # 输入的 tab 都用空格代替
-indent_size = 2                         # 一个 tab 用 2 个空格代替
-# end_of_line = lf                      # 换行符使用 unix 的换行符 \n
-charset = utf-8                         # 字符编码 utf-8
-trim_trailing_whitespace = true         # 去掉每行末尾的空格
-insert_final_newline = true             # 每个文件末尾都加一个空行
+- 安装husky
 
-[*.md]
-trim_trailing_whitespace = false        # .md 文件不去掉每行末尾的空格
+```bash
+npm i husky --save-dev
 ```
 
 
 
-#### 配置 Git Hook 强制执行编码风格检测与修正
+- 在`package.json` 中添加` prepare` 脚本
 
-- `husky` 它会安装一系列 git hook 到项目的 `.git/hook` 目录中，这些钩子可以检测 `package.json` 中的 `scripts` 脚本命令配置，并在代码提交时执行它（我们这里利用 `pre-commit` 钩子）
-
-- `lint-staged` 可以取得所有被提交的文件并依次执行配置好的任务命令
-- `prettier` 配置到 `lint-staged` 的任务中，可以实现修正可自动格式化的编码风格
-
-
-
-### husky
-
-- npm i husky -D
-
-- 在 package.json 中添加 prepare 命令
-
-```javascript
+```json
 {
-  "script": {
-    "prepare": "husky install"
+  ......
+  "scripts": {
+		...
+    "prepare": "husky install", // 新增prepare脚本
+    ...
   }
+  ......
+}
+
+```
+
+
+
+- 执行prepare脚本
+
+```bash
+npm run prepare
+```
+
+> 执行 `husky install`命令时，该命令会创建`.husky/`目录并指定该目录为git hooks所在的目录
+
+
+
+- 添加git hooks，运行一下命令创建git hooks
+
+```bash
+npx husky add .husky/pre-commit "npm run lint"
+```
+
+> 运行完该命令后我们会看到`.husky/`目录下新增了一个名为`pre-commit`的shell脚本。也就是说在在执行git commit命令时会先执行pre-commit这个脚本。该脚本的功能就是执行npm run lint这个命令,`pre-commit`脚本内容如下
+
+```bash
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+npm run lint
+```
+
+
+
+- 添加commit-msg脚本, 执行命令
+
+```bash
+npx husky add .husky/commit-msg 'npx --no-install commitlint --edit "$1"'
+```
+
+> 运行完该命令后我们会看到`.husky/`目录下新增了一个名为`commit-msg`的shell脚本。commitlint可以对commit massage进行格式规范校验，`commit-msg`脚本内容如下：
+
+```bash
+\#!/bin/sh
+"$(dirname "$0")/_/husky.sh"
+
+npx --no-install commitlint --edit "$1"
+```
+
+
+
+# 安装配置 `lint-staged`
+
+- 安装`lint-staged`
+
+```bash
+npm i lint-staged --save-dev
+```
+
+
+
+- 在 `package.json` 文件中配置 `lint` 的命令
+
+```json
+{
+  ......
+  "scripts": {
+		....
+    "lint": "lint-staged --allow-empty"
+  }
+  ......
 }
 ```
 
-> 执行prepare命令 npm run prepare 会在项目跟目录下创建 .husky/文件夹，用来存放所有的git hooks。
-
-#### 添加commit-msg
-
-```shell
-  yarn husky add .husky/commit-msg 'yarn commitlint --edit "$1"'
-```
 
 
+- 配置`lint-staged`命令
 
-#### 自定义git提交规范
+- 从 v3.1 开始，可以使用不同的方式进行 lint-staged 配置：
 
-```shell
-npm i @commitlint/cli @commitlint/config-conventional -D
-```
+  - 在`package.json`文件中配置
 
+    ```json
+    {
+      ......
+      "lint-staged": {
+        "src/**/!(*.min).js": [
+          "prettier --write",
+          "eslint --fix"
+        ],
+        "src/**/*.{ts,vue}": [
+          "prettier --write",
+          "eslint --fix"
+        ],
+        "src/**/*.{ts,js,vue,html,css,scss,sass,stylus}": [
+          "prettier --write"
+        ]
+      },
+      ......
+    }
+    
+    复制代码
+    ```
 
+    `"src/**/!(*.min).js"`表示src目录下所有除了`.min.js`结尾的`.js`文件都需要格式化
 
-项目跟目录下创建 commitlint.config.js 在里面定义提交规则
+  - 利用`.lintstagedrc`文件进行配置，支持JSON或YML格式语法
 
-```javascript
-module.exports = {
-  extends: ['@commitlint/config-conventional'],
-  rules: {
-    'body-leading-blank': [2, 'always'],
-    'footer-leading-blank': [1, 'always'],
-    'header-max-length': [2, 'always', 108],
-    'subject-empty': [2, 'never'],
-    'type-empty': [2, 'never'],
-    'type-enum': [
-      2, // type必须输入
-      'always',
-      [
-        'feat', // 新功能 
-        'fix', // 修复bug 
-        'style', // 修改格式，删除代码空格、缩进等
-        'docs', // 文档、注释修改
-        'refactor', // 代码重构，没有功能修改
-        'merge',  // 代码合并
-        'revert',  // 版本回滚
-        'chore', // 构建过程或辅助工具的变动
-        'test',
-        'perf',
-        'build',
-        'ci',
-        'revert',
-        'wip',
-        'workflow',
-        'types',
-        'release',
+  - 利用`lint-staged.config.js` JS格式的文件进行配置
+
+    ```js
+    "use strict";
+    module.exports = {
+      "{src,server}/**/!(*.min).js": [
+        "eslint --fix",
+        "prettier --write"
+      ],
+      "{src,server}/**/*.{ts,vue}": [
+        "eslint --fix",
+        "prettier --write"
+      ],
+      "src/**/*.{html,css,scss,sass,stylus}": [
+        "prettier --write"
       ]
-    ]
+    }
+    复制代码
+    ```
+
+  - 使用 --config 或 -c 标志传递配置文件进行配置
+
+
+
+# commitlint定制提交规范
+
+> `commitlint`是什么： 当我们运行 `git commmit -m 'xxx'` 时，用来**检查 `xxx` 是否满足固定格式的工具。**
+>
+> 为什么使用`commitlint`：团队中规范了 commit 规范可以更清晰的查看每一次代码提交记录，还可以根据自定义的规则，自动生成 changeLog 文件。
+
+- `commitlint`安装
+
+  ```bash
+  npm install --save-dev @commitlint/config-conventional @commitlint/cli
+  
+  ```
+
+  - `@commitlint/cli` 是commitlint提供的命令行工具，安装后会将cli脚本放置在./node_modules/.bin/目录下
+  - `@commitlint/config-conventional` 是社区中一些共享的配置，我们可以扩展这些配置，也可以不安装这个包自定义配置
+
+- 定制提交格式
+
+  代码提交基本格式为：`<type>(scope?): <subject>`
+
+  > type: 用于表明我们这次提交的改动类型，是新增了功能？还是修改了测试代码？又或者是更新了文档？
+  > scope: 一个可选的修改范围。用于标识此次提交主要涉及到代码中哪个模块。
+  > Subject: 一句话描述此次提交的主要内容，做到言简意赅
+
+- 常用的type类别
+
+| 类型     | 描述                                                   |
+| -------- | ------------------------------------------------------ |
+| ci       | 持续集成修改                                           |
+| docs     | 文档修改                                               |
+| feat     | 新特性、新功能                                         |
+| fix      | 修改bug                                                |
+| perf     | 优化相关，比如提升性能、体验                           |
+| refactor | 代码重构                                               |
+| revert   | 回滚到上一个版本                                       |
+| style    | 代码格式修改, 注意不是 css 修改                        |
+| test     | 测试用例修改                                           |
+| build    | 编译相关的修改，例如发布版本、对项目构建或者依赖的改动 |
+| chore    | 其他修改, 比如改变构建流程、或者增加依赖库、工具等     |
+| update   | 普通更新                                               |
+
+使用方式：
+
+```bash
+git commit -m 'feat: 增加 xxx 功能'
+
+git commit -m 'fix(account): 修复xxx的bug'
+```
+
+- 在项目根目录创建名为commitlint.config.js的文件，代码如下：
+
+  ```js
+  /*
+   * @Description: commit-msg提交信息格式规范
+   * 
+   * commit-msg格式: <type>(scope?): <subject>
+   *   - type: 用于表明我们这次提交的改动类型，是新增了功能？还是修改了测试代码？又或者是更新了文档？
+   *     - build: 编译相关的修改，例如发布版本、对项目构建或者依赖的改动
+   *     - chore: 其他修改, 比如改变构建流程、或者增加依赖库、工具等
+   *     - ci: 持续集成修改
+   *     - docs: 文档修改
+   *     - feat: 新特性、新功能
+   *     - fix: 修改bug
+   *     - perf: 优化相关，比如提升性能、体验
+   *     - refactor: 代码重构
+   *     - revert: 回滚到上一个版本
+   *     - style: 代码格式修改, 注意不是 css 修改
+   *     - test: 测试用例修改
+   *   - scope：一个可选的修改范围。用于标识此次提交主要涉及到代码中哪个模块。
+   *   - Subject：一句话描述此次提交的主要内容，做到言简意赅
+   */
+  module.exports = {
+    extends: ['@commitlint/config-conventional'],
+    rules: {
+      'type-enum': [
+        2,
+        'always',
+        ['ci', 'docs', 'feat', 'fix', 'perf', 'refactor', 'build', 'chore', 'revert', 'style', 'test'],
+      ],
+      'type-empty': [2, 'never'], // <type> 不能为空
+      // 'type-case': [2, 'always', 'lower-case'], // <type>格式小写
+      'type-case': [0],
+      'scope-empty': [0],
+      // 'scope-case': [2, 'always', 'lower-case'], // <scope> 格式 小写
+      'scope-case': [0],
+      'subject-empty': [2, 'never'], // <subject> 不能为空 (默认)
+      // 'subject-full-stop': [2, 'never', '.'], // <subject> 以.为结束标志
+      'subject-full-stop': [0, 'never'],
+      // 'subject-case': [2, 'never', 'lower-case'],
+      'subject-case': [0, 'never'],
+        // case可选值
+        // 'lower-case' 小写 lowercase
+        // 'upper-case' 大写 UPPERCASE
+        // 'camel-case' 小驼峰 camelCase
+        // 'kebab-case' 短横线 kebab-case
+        // 'pascal-case' 大驼峰 PascalCase
+        // 'sentence-case' 首字母大写 Sentence case
+        // 'snake-case' 下划线 snake_case
+        // 'start-case' 所有首字母大写 start-case
+  
+      'header-max-length': [0, 'always', 72], // header 最长72
+      // 'body-leading-blank': [2, 'always'], // body换行
+      // 'footer-leading-blank': [1, 'always'], // <footer> 以空行开头
+    },
+  };
+  复制代码
+  ```
+
+  rule由name和配置数组组成，如：`'name: [0, 'always', 72]'`，数组中第一位表示level，可选`0,1,2`，0为disable，1为warning，2为error，第二位表示是否应用，可选`always|never`，第三位表示该rule的值。
+
+- 如果commit message的格式不符合上述要求，则会报错，检查不通过
+
+  ```bash
+  ✔ Preparing...
+  ✔ Running tasks...
+  ✔ Applying modifications...
+  ✔ Cleaning up...
+  ⧗   input: 修改bug
+  ✖   subject may not be empty [subject-empty]
+  
+  ✖   found 1 problems, 0 warnings
+  ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+  
+  husky - commit-msg hook exited with code 1 (error)
+  复制代码
+  ```
+
+至此，整套流程工具全部配置完毕，按照下面操作：
+
+- 代码改动（lint-staged中配置的指定目录指定文件的改动才进行格式化）
+- 执行`git add .`将改动的内容添加到暂存区
+- 执行`git commit -m "feat: 新增xxx功能"`
+
+程序会自动执行 代码检查、代码格式化、然后commit提交。
+
+当然，如果暂时不想commit代码，可以在执行 `git add .` 命令后直接执行 `npm run lint`进行代码检查和格式化，接着继续进行开发。
+
+
+
+# 自己的配置
+
+- 安装代码校验依赖
+
+```bash
+npm i lint-staged husky -D
+npm set-script prepare "husky install" # 在package.json中添加脚本
+npm run prepare # 初始化husky,将 git hooks 钩子交由,husky执行
+```
+
+
+
+- 初始化 **husky**, 会在根目录创建 **.husky** 文件夹
+
+```bash
+npx husky add .husky/pre-commit "npx lint-staged"
+```
+
+
+
+安装提交信息依赖
+
+```bash
+npm i commitlint @commitlint/config-conventional -D
+npx husky add .husky/commit-msg 'npx --no-install commitlint --edit "$1"'
+```
+
+
+
+我们也可以使用自己写的方法,设置的话使用一下指令
+
+```bash
+npx husky add .husky/commit-msg 'node [dir]/filename.js' # 指定目录文件
+```
+
+
+
+安装辅助提交依赖
+
+```bash
+npm i commitizen cz-conventional-changelog -D
+```
+
+安装指令和命令行的展示信息
+
+```bash
+npm set-script commit "git-cz" # package.json 中添加 commit 指令, 执行 `git-cz` 指令
+```
+
+编写**commit**指令
+
+```bash
+npx commitizen init cz-conventional-changelog --save-dev --save-exact
+```
+
+命令执行完，会在package.json中生成
+
+```json
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
-}
-
 ```
 
 
 
-#### 代码规范提交检测
+自定义提交规范
 
-添加 git hooks 执行以下命令，会在.husky/下创建一个名为 pre-commit 的shell脚本，pre-commit钩子会在git提交commit时先触发，执行 npm run lint 命令。
-
-```javascript
-  npx husky add .husky/pre-commit "npm run lint"
-  // 如果不生效请使用yarn
-  yarn husky add .husky/pre-commit "npm run lint"
-复制代码
+```bash
+npm i -D commitlint-config-cz  cz-customizable
 ```
 
-1. 安装lint-staged（实现代码增量检测，只检测添加到git缓存区的文件）
+
+
+变更 **commitlint.config.js** 这里采用自己定义的规范,将会覆盖上面那个,所以上面那个可以不用安装
+
+增加 .cz-config.js
 
 ```javascript
-  npm i lint-staged -D
-复制代码
-```
-
-1. 在 package.json 中添加lint命令
-
-```javascript
-{
-  "script": {
-    "lint": "lint-staged"
+  'use strict'
+  module.exports = {
+    types: [
+      { value: '✨新增', name: '新增:    新的内容' },
+      { value: '🐛修复', name: '修复:    修复一个Bug' },
+      { value: '📝文档', name: '文档:    变更的只有文档' },
+      { value: '💄格式', name: '格式:    空格, 分号等格式修复' },
+      { value: '♻️重构', name: '重构:    代码重构，注意和特性、修复区分开' },
+      { value: '⚡️性能', name: '性能:    提升性能' },
+      { value: '✅测试', name: '测试:    添加一个测试' },
+      { value: '🔧工具', name: '工具:    开发工具变动(构建、脚手架工具等)' },
+      { value: '⏪回滚', name: '回滚:    代码回退' }
+    ],
+    scopes: [
+      { name: 'leetcode' },
+      { name: 'javascript' },
+      { name: 'typescript' },
+      { name: 'Vue' },
+      { name: 'node' }
+    ],
+    // it needs to match the value for field type. Eg.: 'fix'
+    /*  scopeOverrides: {
+      fix: [
+        {name: 'merge'},
+        {name: 'style'},
+        {name: 'e2eTest'},
+        {name: 'unitTest'}
+      ]
+    },  */
+    // override the messages, defaults are as follows
+    messages: {
+      type: '选择一种你的提交类型:',
+      scope: '选择一个scope (可选):',
+      // used if allowCustomScopes is true
+      customScope: 'Denote the SCOPE of this change:',
+      subject: '短说明:\n',
+      body: '长说明，使用"|"换行(可选)：\n',
+      breaking: '非兼容性说明 (可选):\n',
+      footer: '关联关闭的issue，例如：#31, #34(可选):\n',
+      confirmCommit: '确定提交说明?(yes/no)'
+    },
+    allowCustomScopes: true,
+    allowBreakingChanges: ['特性', '修复'],
+    // limit subject length
+    subjectLimit: 100
   }
-}
-复制代码
 ```
 
-1. 添加lint-staged配置
+package.json 中,将原来commit配置,变更为自定义配置
 
-- 方法一：在`package.json`中添加
-- 方法二：创建`.lintstagedrc` 文件
-- 方法三：创建`lint-staged.config.js` 文件并进行配置
-
-以package.json中添加为例
-
-```javascript
-{
-  "lint-staged": {
-    "*.{js.vue}": [
-      "prettier --write",
-      "eslint --cache --fix"
-    ]
+```json
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-customizable"
+    }
   }
-}
-复制代码
 ```
-
-在 commit 之前，将暂存区的内容做一次 代码检查 和 代码美化，然后再添加到暂存区；然后再 commit。
-
-1. 安装eslint和prettier插件，项目根目录下面配置eslint和prettier规则，然后就可以在git提交时进行代码美化和校验了。。
 
