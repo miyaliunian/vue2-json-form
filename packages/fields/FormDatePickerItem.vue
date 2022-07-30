@@ -19,13 +19,12 @@
         style="width: 100%"
       />
     </FormItem>
-    <div>{{ config }}</div>
   </Col>
 </template>
 <script>
-import { DatePicker, FormItem } from "view-design"
+import { DatePicker, FormItem } from 'view-design'
 export default {
-  name: "FormDatepickerItem",
+  name: 'FormDatepickerItem',
   components: {
     DatePicker,
     FormItem
@@ -55,7 +54,7 @@ export default {
   },
   computed: {
     datePickerType() {
-      return this.config.extendType || "date"
+      return this.config.extendType || 'date'
     }
   },
   methods: {
@@ -74,5 +73,5 @@ export default {
 }
 </script>
 <style lang="less">
-@import "../assets/styles/theme.less";
+@import '../assets/styles/theme.less';
 </style>
